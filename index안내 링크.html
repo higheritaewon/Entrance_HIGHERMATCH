@@ -1,0 +1,259 @@
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>HIGHER MATCH Launcher</title>
+
+  <!-- Google Font: Do Hyeon -->
+  <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --navy:#0c1a3a;
+      --yellow:#ffd94d;
+      --white:#ffffff;
+      --shadow:rgba(0,0,0,.25);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--yellow);
+      font-family:"Do Hyeon", system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      color:#111;
+    }
+
+    /* ===== Main two-button layout ===== */
+    .wrap{
+      height:100dvh;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      padding:16px;
+    }
+    .btn{
+      flex:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(180deg, #122556, var(--navy) 60%, #0a1636);
+      color:var(--white);
+      border:none;
+      border-radius:18px;
+      box-shadow: 0 10px 20px var(--shadow), inset 0 3px 10px rgba(255,255,255,.06), inset 0 -6px 12px rgba(0,0,0,.35);
+      text-align:center;
+      text-decoration:none;
+      cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform .06s ease, box-shadow .06s ease;
+      padding: 0 10px;
+    }
+    .btn:active{
+      transform: translateY(1px);
+      box-shadow: 0 6px 14px var(--shadow), inset 0 2px 6px rgba(255,255,255,.05), inset 0 -4px 10px rgba(0,0,0,.35);
+    }
+    .btn span{
+      display:block;
+      line-height:1.05;
+      /* 폰트 크기를 버튼을 가득 채우도록 반응형 계산 */
+      font-size: clamp(22px, 9.5vw, 64px);
+      letter-spacing:.5px;
+    }
+    .btn--match{
+      color: var(--yellow); /* 하이어 매치 바로가기 = 노란색 글자 */
+      text-shadow: 0 2px 0 rgba(0,0,0,.35);
+    }
+    .btn--guide{
+      color: var(--white); /* 사용설명서 = 흰색 글자 */
+      text-shadow: 0 2px 0 rgba(0,0,0,.35);
+    }
+
+    /* ===== Modal (Popup) ===== */
+    .modal{
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: rgba(0,0,0,.5);
+      backdrop-filter: blur(2px);
+      z-index: 9999;
+      padding: 18px;
+    }
+    .modal[hidden]{ display:none; }
+
+    .modal__card{
+      width: min(840px, 100%);
+      max-height: 90dvh;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,.35);
+      display:flex;
+      flex-direction:column;
+    }
+    .modal__image{
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      background:#eee;
+      display:block;
+    }
+    .modal__body{
+      padding: 16px 16px 8px;
+      overflow:auto;
+    }
+    .checkrow{
+      display:flex; align-items:center; gap:10px;
+      margin: 8px 0;
+      font-size: 16px;
+    }
+    .checkrow input[type="checkbox"]{
+      transform: scale(1.2);
+      accent-color: #0c1a3a;
+      cursor:pointer;
+    }
+    .modal__footer{
+      padding: 12px 16px 16px;
+      display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;
+    }
+    .btn--confirm{
+      padding: 12px 18px;
+      background: var(--navy);
+      color: var(--yellow);
+      border-radius: 12px;
+      border: none;
+      font-size: 18px;
+      box-shadow: 0 10px 20px var(--shadow);
+      cursor:pointer;
+    }
+    .note{
+      margin-top: 8px; color:#666; font-size: 13px;
+    }
+
+    /* Safe area for iPhone */
+    @supports(padding:max(0px)) {
+      .wrap{ padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
+      .modal{ padding: max(18px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Main Two Buttons ===== -->
+  <main class="wrap" aria-live="polite">
+    <button id="btnMatch" class="btn btn--match" type="button" aria-label="하이어 매치 바로가기 (새 창)">
+      <span>하이어 매치 바로가기<br>HIGHER MATCH</span>
+    </button>
+    <button id="btnGuide" class="btn btn--guide" type="button" aria-label="하이어 매치 사용설명서 (새 창)">
+      <span>하이어 매치 사용설명서</span>
+    </button>
+  </main>
+
+  <!-- ===== Popup Modal ===== -->
+  <section id="popup" class="modal" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+    <div class="modal__card">
+      <!-- ✅ 여기에 이미지 링크만 넣으면 됩니다 (src 비워둠) -->
+      <img id="popupImage" class="modal__image" src="https://drive.google.com/uc?export=download&id=1_biO3h4_759y5RT6Wq20P2pRY8wUcPDe" alt="안내 이미지" />
+      <div class="modal__body">
+        <div class="checkrow">
+          <input type="checkbox" id="chkToday" />
+          <label for="chkToday">오늘 하루 이 창 보지않기</label>
+        </div>
+        <div class="checkrow">
+          <input type="checkbox" id="chkAgree" />
+          <label for="chkAgree" id="popupTitle">위 내용을 확인하였습니다.</label>
+        </div>
+        <p class="note">※ 내용을 정독해주시기 바랍니다.</p>
+      </div>
+      <div class="modal__footer">
+        <button id="btnConfirm" class="btn--confirm" type="button">확인</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // ====== ⬇️ 설정만 해주세요 (주소 넣는 곳) ======
+    // 팝업에 띄울 이미지 주소: 아래 한 줄 또는 HTML의 <img src=""> 중 하나로 설정
+    // document.getElementById('popupImage').src = "https://예시도메인/path/to/image.jpg";
+
+    // 버튼 연결 주소
+    const LINK_MATCH = "https://higheritaewon.github.io/HIGHER-MATCH-2025-BETA/"; // 예: "https://your-domain.com/higher-match"
+    const LINK_GUIDE = "https://www.instagram.com/p/DPyruvHkZuM/?igsh=bXo2N2I3eTh4ejU2"; // 예: "https://your-domain.com/guide"
+
+    // ====== 팝업 8시간 유지 로직 ======
+    const SNOOZE_KEY = "hm_popup_snooze_until";
+    const EIGHT_HOURS = 8 * 60 * 60 * 1000;
+
+    const popup = document.getElementById('popup');
+    const chkToday = document.getElementById('chkToday');
+    const chkAgree = document.getElementById('chkAgree');
+    const btnConfirm = document.getElementById('btnConfirm');
+
+    // 버튼 요소
+    const btnMatch = document.getElementById('btnMatch');
+    const btnGuide = document.getElementById('btnGuide');
+
+    // 최초 진입 시 팝업 표시 여부 결정
+    (function initPopup(){
+      try{
+        const until = Number(localStorage.getItem(SNOOZE_KEY) || 0);
+        const now = Date.now();
+        if (until > now){
+          popup.hidden = true;
+          popup.setAttribute('aria-hidden','true');
+        } else {
+          popup.hidden = false;
+          popup.removeAttribute('aria-hidden');
+        }
+      }catch(e){
+        // localStorage 접근 불가한 경우(프라이빗 모드 등)에는 그냥 띄움
+        popup.hidden = false;
+        popup.removeAttribute('aria-hidden');
+      }
+    })();
+
+    // 확인 버튼 동작
+    btnConfirm.addEventListener('click', () => {
+      if (!chkAgree.checked){
+        alert("‘위 내용을 확인하였습니다.’에 체크해 주세요.");
+        return;
+      }
+      // ‘오늘 하루 이 창 보지않기’ 체크 상태면 8시간 스누즈 저장
+      if (chkToday.checked){
+        const until = Date.now() + EIGHT_HOURS;
+        try{
+          localStorage.setItem(SNOOZE_KEY, String(until));
+        }catch(e){
+          // 저장 실패 시 무시 (다음 방문에 다시 뜰 수 있음)
+        }
+      }
+      // 팝업 닫기
+      popup.hidden = true;
+      popup.setAttribute('aria-hidden','true');
+    });
+
+    // ESC로 닫기(동의 체크된 상태에서만)
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !popup.hidden && chkAgree.checked){
+        btnConfirm.click();
+      }
+    });
+
+    // 버튼들: 링크 미설정 시 경고, 설정 시 새 탭으로 열기
+    function openOrWarn(url, label){
+      if (!url || !/^https?:\/\//i.test(url)){
+        alert(`${label} 링크가 설정되지 않았습니다.\n코드 상단의 LINK_* 상수에 올바른 URL을 입력해 주세요.`);
+        return;
+      }
+      window.open(url, '_blank', 'noopener');
+    }
+
+    btnMatch.addEventListener('click', () => openOrWarn(LINK_MATCH, "‘하이어 매치 바로가기’"));
+    btnGuide.addEventListener('click', () => openOrWarn(LINK_GUIDE, "‘하이어 매치 사용설명서’"));
+  </script>
+</body>
+</html>
