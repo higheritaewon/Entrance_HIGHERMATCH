@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -13,17 +11,22 @@
   <style>
     :root{
       --navy:#0c1a3a;
+      --navy-2:#0a1636;
       --yellow:#ffd94d;
       --white:#ffffff;
       --shadow:rgba(0,0,0,.25);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
+    /* 기본 폰트는 시스템 폰트(가독성), 도현체는 필요한 요소에만 붙임 */
     body{
       margin:0;
       background:var(--yellow);
-      font-family:"Do Hyeon", system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       color:#111;
+    }
+    .font-dohyeon{
+      font-family:"Do Hyeon", system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
     }
 
     /* ===== Main two-button layout ===== */
@@ -59,7 +62,7 @@
     .btn span{
       display:block;
       line-height:1.05;
-      /* 폰트 크기를 버튼을 가득 채우도록 반응형 계산 */
+      /* 폰트 크기는 기존 그대로 유지 */
       font-size: clamp(22px, 9.5vw, 64px);
       letter-spacing:.5px;
     }
@@ -88,32 +91,40 @@
     .modal__card{
       width: min(840px, 100%);
       max-height: 90dvh;
-      background: #fff;
+      background: linear-gradient(180deg, var(--navy), var(--navy-2));
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 20px 40px rgba(0,0,0,.35);
       display:flex;
       flex-direction:column;
-    }
-    .modal__image{
-      width: 100%;
-      aspect-ratio: 16/9;
-      object-fit: cover;
-      background:#eee;
-      display:block;
+      color:var(--white);
     }
     .modal__body{
-      padding: 16px 16px 8px;
+      padding: 18px 16px 8px;
       overflow:auto;
+    }
+    .modal__title{
+      margin: 16px 16px 4px;
+      text-align:center;
+      color: var(--yellow);
+      font-size: clamp(22px, 5.8vw, 34px);
+    }
+    .modal__content{
+      margin: 6px 16px 8px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--white);
+      white-space: pre-line; /* \n을 줄바꿈으로 반영 */
     }
     .checkrow{
       display:flex; align-items:center; gap:10px;
       margin: 8px 0;
       font-size: 16px;
+      color:#e9eef9;
     }
     .checkrow input[type="checkbox"]{
       transform: scale(1.2);
-      accent-color: #0c1a3a;
+      accent-color: #e9eef9;
       cursor:pointer;
     }
     .modal__footer{
@@ -122,16 +133,19 @@
     }
     .btn--confirm{
       padding: 12px 18px;
-      background: var(--navy);
-      color: var(--yellow);
+      background: var(--yellow);
+      color: #111;
       border-radius: 12px;
       border: none;
       font-size: 18px;
       box-shadow: 0 10px 20px var(--shadow);
       cursor:pointer;
+      /* 가독성 좋은 일반 폰트 유지 */
+      font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     }
     .note{
-      margin-top: 8px; color:#666; font-size: 13px;
+      margin-top: 8px; color:#cfd8ea; font-size: 13px;
+      font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     }
 
     /* Safe area for iPhone */
@@ -145,30 +159,54 @@
 
   <!-- ===== Main Two Buttons ===== -->
   <main class="wrap" aria-live="polite">
-    <button id="btnMatch" class="btn btn--match" type="button" aria-label="하이어 매치 바로가기 (새 창)">
-      <span>하이어 매치 바로가기<br>HIGHER MATCH</span>
+    <!-- 버튼은 도현체만 적용, 크기/레이아웃은 그대로 -->
+    <button id="btnMatch" class="btn btn--match font-dohyeon" type="button" aria-label="하이어 매치 바로가기 (새 창)">
+      <span>하이어 매치 <br>👉 바로가기 👈<br>HIGHER MATCH</span>
     </button>
-    <button id="btnGuide" class="btn btn--guide" type="button" aria-label="하이어 매치 사용설명서 (새 창)">
-      <span>하이어 매치 사용설명서</span>
+    <button id="btnGuide" class="btn btn--guide font-dohyeon" type="button" aria-label="하이어 매치 사용설명서 (새 창)">
+      <span>하이어 매치<br>사용설명서🧾</span>
     </button>
   </main>
 
-  <!-- ===== Popup Modal ===== -->
+  <!-- ===== Popup Modal (No Image) ===== -->
   <section id="popup" class="modal" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
     <div class="modal__card">
-      <!-- ✅ 여기에 이미지 링크만 넣으면 됩니다 (src 비워둠) -->
-      <img id="popupImage" class="modal__image" src="https://drive.google.com/uc?export=download&id=1_biO3h4_759y5RT6Wq20P2pRY8wUcPDe" alt="안내 이미지" />
+      <!-- 제목: 도현체, 중앙, 노란색 -->
+      <h2 id="popupTitle" class="modal__title font-dohyeon">하이어 매치 규칙 및 안내사항</h2>
+
+      <!-- 본문: 도현체, 흰색. “1.~ 10.” 사이에 빈 줄(줄바꿈 2번) -->
       <div class="modal__body">
+        <div id="popupText" class="modal__content font-dohyeon">
+1. 이벤트 참여를 원하시는 분은 번호를 잘보이도록 가슴 중앙에 붙여주세요.
+
+2. 받으신 번호로만 등록을 해주세요.(1인1번호)
+
+3. 메인안주와 술 주문은 꼭 해주세요!
+
+4. 매치 후 만남요청을 서로 보류할 경우 만남성사가 불가합니다.
+
+5. 만남성사 되신분은 상대방 확인 후에 카운터 직원에게 문의해주세요. 
+
+6. 테이블 합석을 원하시는 경우 직원에게 문의주세요.
+    단, 각 테이블 계산이 우선적으로 되어야 합니다.
+
+7. 헌팅포차처럼 즐겨주세요.
+
+        </div>
+
+        <!-- 체크/라벨: 일반 가독성 폰트 -->
         <div class="checkrow">
           <input type="checkbox" id="chkToday" />
           <label for="chkToday">오늘 하루 이 창 보지않기</label>
         </div>
         <div class="checkrow">
           <input type="checkbox" id="chkAgree" />
-          <label for="chkAgree" id="popupTitle">위 내용을 확인하였습니다.</label>
+          <label for="chkAgree">위 내용을 모두 확인하였습니다.</label>
         </div>
-        <p class="note">※ 내용을 정독해주시기 바랍니다.</p>
+        <p class="note">     ※ 불이익이 없도록 내용을 정독해주시기 바랍니다.</p>
       </div>
+
+      <!-- 확인 버튼: 일반 가독성 폰트 -->
       <div class="modal__footer">
         <button id="btnConfirm" class="btn--confirm" type="button">확인</button>
       </div>
@@ -176,14 +214,9 @@
   </section>
 
   <script>
-    // ====== ⬇️ 설정만 해주세요 (주소 넣는 곳) ======
-    // 팝업에 띄울 이미지 주소: 아래 한 줄 또는 HTML의 <img src=""> 중 하나로 설정
-    // document.getElementById('popupImage').src = "https://예시도메인/path/to/image.jpg";
-
-    // 버튼 연결 주소
-    const LINK_MATCH = "https://higheritaewon.github.io/HIGHER-MATCH-2025-BETA/"; // 예: "https://your-domain.com/higher-match"
-    const LINK_GUIDE = "https://www.instagram.com/p/DPyruvHkZuM/?igsh=bXo2N2I3eTh4ejU2"; // 예: "https://your-domain.com/guide"
-
+    // ====== ⬇️ 설정 (버튼 링크만 넣어주세요) ======
+    const LINK_MATCH = "https://higheritaewon.github.io/HIGHER-MATCH-2025-BETA/"; 
+    const LINK_GUIDE = "https://www.instagram.com/p/DPyruvHkZuM/?igsh=bXo2N2I3eTh4ejU2"; 
     // ====== 팝업 8시간 유지 로직 ======
     const SNOOZE_KEY = "hm_popup_snooze_until";
     const EIGHT_HOURS = 8 * 60 * 60 * 1000;
@@ -193,11 +226,10 @@
     const chkAgree = document.getElementById('chkAgree');
     const btnConfirm = document.getElementById('btnConfirm');
 
-    // 버튼 요소
     const btnMatch = document.getElementById('btnMatch');
     const btnGuide = document.getElementById('btnGuide');
 
-    // 최초 진입 시 팝업 표시 여부 결정
+    // 최초 진입 시 팝업 표시 여부
     (function initPopup(){
       try{
         const until = Number(localStorage.getItem(SNOOZE_KEY) || 0);
@@ -210,28 +242,23 @@
           popup.removeAttribute('aria-hidden');
         }
       }catch(e){
-        // localStorage 접근 불가한 경우(프라이빗 모드 등)에는 그냥 띄움
         popup.hidden = false;
         popup.removeAttribute('aria-hidden');
       }
     })();
 
-    // 확인 버튼 동작
+    // 확인 버튼
     btnConfirm.addEventListener('click', () => {
       if (!chkAgree.checked){
         alert("‘위 내용을 확인하였습니다.’에 체크해 주세요.");
         return;
       }
-      // ‘오늘 하루 이 창 보지않기’ 체크 상태면 8시간 스누즈 저장
       if (chkToday.checked){
         const until = Date.now() + EIGHT_HOURS;
         try{
           localStorage.setItem(SNOOZE_KEY, String(until));
-        }catch(e){
-          // 저장 실패 시 무시 (다음 방문에 다시 뜰 수 있음)
-        }
+        }catch(e){}
       }
-      // 팝업 닫기
       popup.hidden = true;
       popup.setAttribute('aria-hidden','true');
     });
@@ -243,7 +270,7 @@
       }
     });
 
-    // 버튼들: 링크 미설정 시 경고, 설정 시 새 탭으로 열기
+    // 버튼 새 탭 열기 (링크 미설정 경고)
     function openOrWarn(url, label){
       if (!url || !/^https?:\/\//i.test(url)){
         alert(`${label} 링크가 설정되지 않았습니다.\n코드 상단의 LINK_* 상수에 올바른 URL을 입력해 주세요.`);
@@ -251,7 +278,6 @@
       }
       window.open(url, '_blank', 'noopener');
     }
-
     btnMatch.addEventListener('click', () => openOrWarn(LINK_MATCH, "‘하이어 매치 바로가기’"));
     btnGuide.addEventListener('click', () => openOrWarn(LINK_GUIDE, "‘하이어 매치 사용설명서’"));
   </script>
