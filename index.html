@@ -18,7 +18,6 @@
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    /* 기본 폰트는 시스템 폰트(가독성), 도현체는 필요한 요소에만 붙임 */
     body{
       margin:0;
       background:var(--yellow);
@@ -29,13 +28,37 @@
       font-family:"Do Hyeon", system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
     }
 
-    /* ===== Main two-button layout ===== */
+    /* ===== Main layout ===== */
     .wrap{
       height:100dvh;
       display:flex;
       flex-direction:column;
       gap:16px;
       padding:16px;
+    }
+
+    /* ===== Logo area ===== */
+    .logo{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:8px 8px 0;
+    }
+    .logo img{
+      width:min(520px, 86vw);
+      height:auto;
+      display:block;
+      object-fit:contain;
+      filter: drop-shadow(0 10px 20px var(--shadow));
+      border-radius:12px;
+    }
+
+    /* ===== Buttons ===== */
+    .btns{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      flex:1;              /* 버튼 영역이 남은 세로공간을 채우도록 */
     }
     .btn{
       flex:1;
@@ -62,16 +85,18 @@
     .btn span{
       display:block;
       line-height:1.05;
-      /* 폰트 크기는 기존 그대로 유지 */
       font-size: clamp(22px, 9.5vw, 64px);
       letter-spacing:.5px;
     }
+    .btn--xl{  /* 가운데 버튼을 2배 이상 크게 */
+      flex:2.2;
+    }
     .btn--match{
-      color: var(--yellow); /* 하이어 매치 바로가기 = 노란색 글자 */
+      color: var(--yellow);
       text-shadow: 0 2px 0 rgba(0,0,0,.35);
     }
-    .btn--guide{
-      color: var(--white); /* 사용설명서 = 흰색 글자 */
+    .btn--guide, .btn--info{
+      color: var(--white);
       text-shadow: 0 2px 0 rgba(0,0,0,.35);
     }
 
@@ -103,18 +128,20 @@
       padding: 18px 16px 8px;
       overflow:auto;
     }
+    /* ⬇️ 제목 2배 */
     .modal__title{
       margin: 16px 16px 4px;
       text-align:center;
       color: var(--yellow);
-      font-size: clamp(22px, 5.8vw, 34px);
+      font-size: clamp(34px, 11.6vw, 68px);
     }
+    /* ⬇️ 내용 2배 */
     .modal__content{
       margin: 6px 16px 8px;
-      font-size: 16px;
+      font-size: 32px;
       line-height: 1.6;
       color: var(--white);
-      white-space: pre-line; /* \n을 줄바꿈으로 반영 */
+      white-space: pre-line;
     }
     .checkrow{
       display:flex; align-items:center; gap:10px;
@@ -140,7 +167,6 @@
       font-size: 18px;
       box-shadow: 0 10px 20px var(--shadow);
       cursor:pointer;
-      /* 가독성 좋은 일반 폰트 유지 */
       font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     }
     .note{
@@ -157,24 +183,37 @@
 </head>
 <body>
 
-  <!-- ===== Main Two Buttons ===== -->
+  <!-- ===== Logo (크게) ===== -->
+  <div class="logo" aria-hidden="true">
+    <img id="logoImg" src="https://lh3.googleusercontent.com/d/143lu87wt27PIerpMbBNSViSsHabI0dZd" alt="HIGHER 로고">
+    
+  </div>
+
+  <!-- ===== Main Buttons (세로 3개) ===== -->
   <main class="wrap" aria-live="polite">
-    <!-- 버튼은 도현체만 적용, 크기/레이아웃은 그대로 -->
-    <button id="btnMatch" class="btn btn--match font-dohyeon" type="button" aria-label="하이어 매치 바로가기 (새 창)">
-      <span>💛<br>HIGHER MATCH<br>👉 바로가기 👈</span>
-    </button>
-    <button id="btnGuide" class="btn btn--guide font-dohyeon" type="button" aria-label="하이어 매치 사용설명서 (새 창)">
-      <span>하이어매치 모바일<br>사용설명서</span>
-    </button>
+    <div class="btns">
+      <!-- 1) 안내사항: 새 창으로 ‘내용만’ 열기 -->
+      <button id="btnInfo" class="btn btn--info font-dohyeon" type="button" aria-label="HIGHER MATCH 안내사항 (새 창)">
+        <span>HIGHER MATCH 안내사항</span>
+      </button>
+
+      <!-- 2) 매치: 가장 크게 (2배 이상) -->
+      <button id="btnMatch" class="btn btn--match btn--xl font-dohyeon" type="button" aria-label="하이어 매치 바로가기 (새 창)">
+        <span>💛<br>HIGHER MATCH<br>👉 바로가기 👈</span>
+      </button>
+
+      <!-- 3) 사용설명서: 기본 크기 -->
+      <button id="btnGuide" class="btn btn--guide font-dohyeon" type="button" aria-label="하이어 매치 사용설명서 (새 창)">
+        <span>하이어매치 모바일<br>사용설명서</span>
+      </button>
+    </div>
   </main>
 
-  <!-- ===== Popup Modal (No Image) ===== -->
+  <!-- ===== Popup Modal (기존 유지, 글자 2배 반영) ===== -->
   <section id="popup" class="modal" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
     <div class="modal__card">
-      <!-- 제목: 도현체, 중앙, 노란색 -->
       <h2 id="popupTitle" class="modal__title font-dohyeon">하이어 매치 안내사항</h2>
 
-      <!-- 본문: 도현체, 흰색. “1.~ 10.” 사이에 빈 줄(줄바꿈 2번) -->
       <div class="modal__body">
         <div id="popupText" class="modal__content font-dohyeon">
 1. 이벤트 참여를 원하시는 분은 번호를 잘보이도록 가슴 중앙에 붙여주세요.
@@ -183,7 +222,7 @@
 
 3. 메인안주와 술 주문은 꼭 해주세요!
 
-4. 메인안주와 술 주문은 꼭 해주세요!
+4. LIKE는 7개로 제한됩니다.
 
 5. 만남성사가 되면 상대방 확인 후에 직원에게 문의해주세요. 
 
@@ -191,22 +230,20 @@
     단, 각 테이블 계산이 우선적으로 되어야 합니다.
 
 7. 헌팅포차처럼 즐겨주세요.
-
         </div>
 
-        <!-- 체크/라벨: 일반 가독성 폰트 -->
+        <!-- 체크/라벨: 기존 유지 (모달에서만) -->
         <div class="checkrow">
           <input type="checkbox" id="chkToday" />
-          <label for="chkToday">오늘 하루 이 창 보지않기</label>
+          <label for="chkToday">3시간동안 이 창 보지않기</label>
         </div>
         <div class="checkrow">
           <input type="checkbox" id="chkAgree" />
           <label for="chkAgree">위 내용을 모두 확인하였습니다.</label>
         </div>
-        <p class="note">     ※ 불이익이 없도록 내용을 정독해주시기 바랍니다.</p>
+        <p class="note">     &nbsp &nbsp &nbsp &nbsp※ 불이익이 없도록 내용을 정독해주시기 바랍니다.</p>
       </div>
 
-      <!-- 확인 버튼: 일반 가독성 폰트 -->
       <div class="modal__footer">
         <button id="btnConfirm" class="btn--confirm" type="button">확인</button>
       </div>
@@ -215,8 +252,9 @@
 
   <script>
     // ====== ⬇️ 설정 (버튼 링크만 넣어주세요) ======
-    const LINK_MATCH = "https://higheritaewon.github.io/HIGHER-MATCH-2025-BETA/"; 
+    const LINK_MATCH = "https://higheritaewon.github.io/Message-TEST_higherMatch/"; 
     const LINK_GUIDE = "https://www.instagram.com/p/DPyruvHkZuM/?igsh=bXo2N2I3eTh4ejU2"; 
+
     // ====== 팝업 3시간 유지 로직 ======
     const SNOOZE_KEY = "hm_popup_snooze_until";
     const EIGHT_HOURS = 3 * 60 * 60 * 1000;
@@ -226,6 +264,7 @@
     const chkAgree = document.getElementById('chkAgree');
     const btnConfirm = document.getElementById('btnConfirm');
 
+    const btnInfo  = document.getElementById('btnInfo');
     const btnMatch = document.getElementById('btnMatch');
     const btnGuide = document.getElementById('btnGuide');
 
@@ -263,14 +302,14 @@
       popup.setAttribute('aria-hidden','true');
     });
 
-    // ESC로 닫기(동의 체크된 상태에서만)
+    // ESC 닫기 (동의 체크된 상태에서만)
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !popup.hidden && chkAgree.checked){
         btnConfirm.click();
       }
     });
 
-    // 버튼 새 탭 열기 (링크 미설정 경고)
+    // 공통: 링크 열기
     function openOrWarn(url, label){
       if (!url || !/^https?:\/\//i.test(url)){
         alert(`${label} 링크가 설정되지 않았습니다.\n코드 상단의 LINK_* 상수에 올바른 URL을 입력해 주세요.`);
@@ -278,12 +317,57 @@
       }
       window.open(url, '_blank', 'noopener');
     }
+
+    // 1) 안내사항: 체크박스 없는 "내용만" 새 창으로 열기
+    btnInfo.addEventListener('click', () => {
+      const titleText = document.getElementById('popupTitle')?.textContent?.trim() || '하이어 매치 안내사항';
+      const bodyText  = document.getElementById('popupText')?.textContent || '';
+      const w = window.open('', '_blank', 'noopener,width=960,height=800');
+      if (!w) return;
+
+      const html = `
+<!DOCTYPE html><html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>${titleText}</title>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+<style>
+  :root{ --navy:#0c1a3a; --navy-2:#0a1636; --yellow:#ffd94d; --white:#fff; }
+  html,body{height:100%}
+  body{
+    margin:0; background:linear-gradient(180deg, var(--navy), var(--navy-2));
+    color:var(--white);
+    font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  }
+  .font-dh{ font-family:"Do Hyeon", system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
+  .page{ min-height:100dvh; display:flex; flex-direction:column; }
+  .title{
+    margin: 24px 16px 8px; text-align:center; color:var(--yellow);
+    font-size: clamp(34px, 11.6vw, 68px);
+  }
+  .content{
+    margin: 10px 16px 24px; white-space:pre-line;
+    font-size: 32px; line-height:1.6;
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <h1 class="title font-dh">${titleText}</h1>
+    <section class="content font-dh">${bodyText.replace(/</g,"&lt;").replace(/>/g,"&gt;")}</section>
+  </main>
+</body></html>`;
+      w.document.open();
+      w.document.write(html);
+      w.document.close();
+    });
+
+    // 2) 매치 바로가기(가운데 큰 버튼)
     btnMatch.addEventListener('click', () => openOrWarn(LINK_MATCH, "‘하이어 매치 바로가기’"));
+
+    // 3) 사용설명서
     btnGuide.addEventListener('click', () => openOrWarn(LINK_GUIDE, "‘하이어 매치 사용설명서’"));
   </script>
 </body>
 </html>
-
-
-
-
