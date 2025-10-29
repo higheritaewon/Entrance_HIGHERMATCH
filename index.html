@@ -12,17 +12,19 @@
     :root{
       --navy:#0c1a3a;
       --navy-2:#0a1636;
+      --bg:#0f1730;
       --yellow:#ffd94d;
       --white:#ffffff;
-      --shadow:rgba(0,0,0,.25);
+      --muted:#cfd8ea;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      background:var(--yellow);
+      /* 톤을 네이비 계열로 재조정 (플랫) */
+      background: linear-gradient(180deg, var(--bg), #0a142e 55%, #08102a);
+      color:var(--white);
       font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      color:#111;
     }
     .font-dohyeon{
       font-family:"Do Hyeon", system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
@@ -30,14 +32,14 @@
 
     /* ===== Main layout ===== */
     .wrap{
-      height:100dvh;
+      min-height:100dvh;
       display:flex;
       flex-direction:column;
       gap:16px;
       padding:16px;
     }
 
-    /* ===== Logo area ===== */
+    /* ===== Logo (절반 크기) ===== */
     .logo{
       display:flex;
       align-items:center;
@@ -45,60 +47,54 @@
       padding:8px 8px 0;
     }
     .logo img{
-      width:min(520px, 86vw);
+      width:min(260px, 43vw);  /* 기존의 절반 */
       height:auto;
       display:block;
       object-fit:contain;
-      filter: drop-shadow(0 10px 20px var(--shadow));
       border-radius:12px;
+      /* 입체 효과 제거: 그림자/필터 없음 */
     }
 
-    /* ===== Buttons ===== */
+    /* ===== Buttons (플랫 스타일) ===== */
     .btns{
       display:flex;
       flex-direction:column;
       gap:16px;
-      flex:1;              /* 버튼 영역이 남은 세로공간을 채우도록 */
+      flex:1;
+      margin-top:8px;
     }
     .btn{
       flex:1;
       display:flex;
       align-items:center;
       justify-content:center;
-      background:linear-gradient(180deg, #122556, var(--navy) 60%, #0a1636);
-      color:var(--white);
+      background: var(--navy);    /* 플랫 배경 */
+      color: var(--white);
       border:none;
-      border-radius:18px;
-      box-shadow: 0 10px 20px var(--shadow), inset 0 3px 10px rgba(255,255,255,.06), inset 0 -6px 12px rgba(0,0,0,.35);
+      border-radius:16px;
       text-align:center;
       text-decoration:none;
       cursor:pointer;
       user-select:none;
       -webkit-tap-highlight-color: transparent;
-      transition: transform .06s ease, box-shadow .06s ease;
+      transition: opacity .12s ease, transform .04s ease;
       padding: 0 10px;
+      /* 입체 효과 제거: box-shadow, text-shadow 모두 제거 */
     }
-    .btn:active{
-      transform: translateY(1px);
-      box-shadow: 0 6px 14px var(--shadow), inset 0 2px 6px rgba(255,255,255,.05), inset 0 -4px 10px rgba(0,0,0,.35);
-    }
+    .btn:active{ transform: translateY(0); opacity:.92; }
     .btn span{
       display:block;
-      line-height:1.05;
-      font-size: clamp(22px, 9.5vw, 64px);
-      letter-spacing:.5px;
+      line-height:1.06;
+      /* 전체 버튼 폰트 2px 축소 */
+      font-size: clamp(20px, 9vw, 62px);
+      letter-spacing:.3px;
     }
-    .btn--xl{  /* 가운데 버튼을 2배 이상 크게 */
-      flex:2.2;
-    }
-    .btn--match{
-      color: var(--yellow);
-      text-shadow: 0 2px 0 rgba(0,0,0,.35);
-    }
-    .btn--guide, .btn--info{
-      color: var(--white);
-      text-shadow: 0 2px 0 rgba(0,0,0,.35);
-    }
+    /* 가운데 버튼 크게 */
+    .btn--xl{ flex:2.3; }
+    /* 매치 버튼만 노란색 플랫 */
+    .btn--match{ background: var(--yellow); color:#111; }
+    .btn--info{ background: #14254f; }
+    .btn--guide{ background: #14254f; }
 
     /* ===== Modal (Popup) ===== */
     .modal{
@@ -119,43 +115,43 @@
       background: linear-gradient(180deg, var(--navy), var(--navy-2));
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,.35);
       display:flex;
       flex-direction:column;
       color:var(--white);
     }
     .modal__body{
-      padding: 18px 16px 8px;
+      padding: 18px 16px 12px;
       overflow:auto;
     }
-    /* ⬇️ 제목 2배 */
+    /* ⬇️ 제목: 직전(2배) 대비 2/3로 축소 */
     .modal__title{
-      margin: 16px 16px 4px;
+      margin: 16px 16px 6px;
       text-align:center;
       color: var(--yellow);
-      font-size: clamp(34px, 11.6vw, 68px);
+      /* 34px→22.7, 11.6vw→7.73vw, 68px→45.3 (반올림) */
+      font-size: clamp(23px, 7.8vw, 46px);
     }
-    /* ⬇️ 내용 2배 */
+    /* ⬇️ 내용: 32px → 21.3px (2/3) */
     .modal__content{
-      margin: 6px 16px 8px;
-      font-size: 32px;
+      margin: 8px 16px 8px;
+      font-size: 21.3px;
       line-height: 1.6;
       color: var(--white);
       white-space: pre-line;
     }
     .checkrow{
       display:flex; align-items:center; gap:10px;
-      margin: 8px 0;
-      font-size: 16px;
+      margin: 10px 0 6px;
+      font-size: 15px;
       color:#e9eef9;
     }
     .checkrow input[type="checkbox"]{
-      transform: scale(1.2);
+      transform: scale(1.15);
       accent-color: #e9eef9;
       cursor:pointer;
     }
     .modal__footer{
-      padding: 12px 16px 16px;
+      padding: 10px 16px 16px;
       display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;
     }
     .btn--confirm{
@@ -165,12 +161,11 @@
       border-radius: 12px;
       border: none;
       font-size: 18px;
-      box-shadow: 0 10px 20px var(--shadow);
       cursor:pointer;
       font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     }
     .note{
-      margin-top: 8px; color:#cfd8ea; font-size: 13px;
+      margin-top: 6px; color:var(--muted); font-size: 13px;
       font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     }
 
@@ -183,33 +178,34 @@
 </head>
 <body>
 
-  <!-- ===== Logo (크게) ===== -->
+  <!-- ===== Logo (절반 크기) ===== -->
   <div class="logo" aria-hidden="true">
+    <!-- ⬇️ 로고 이미지 URL을 이곳에 넣어주세요 -->
     <img id="logoImg" src="https://lh3.googleusercontent.com/d/143lu87wt27PIerpMbBNSViSsHabI0dZd" alt="HIGHER 로고">
-    
+    <!-- 예: src="https://example.com/higher-logo.png" -->
   </div>
 
   <!-- ===== Main Buttons (세로 3개) ===== -->
   <main class="wrap" aria-live="polite">
     <div class="btns">
-      <!-- 1) 안내사항: 새 창으로 ‘내용만’ 열기 -->
-      <button id="btnInfo" class="btn btn--info font-dohyeon" type="button" aria-label="HIGHER MATCH 안내사항 (새 창)">
+      <!-- 1) 안내사항: 항상 현재 페이지의 팝업을 띄움 -->
+      <button id="btnInfo" class="btn btn--info font-dohyeon" type="button" aria-label="HIGHER MATCH 안내사항 열기">
         <span>HIGHER MATCH 안내사항</span>
       </button>
 
-      <!-- 2) 매치: 가장 크게 (2배 이상) -->
-      <button id="btnMatch" class="btn btn--match btn--xl font-dohyeon" type="button" aria-label="하이어 매치 바로가기 (새 창)">
+      <!-- 2) 매치: 가장 크게 (플랫, 노란색) -->
+      <button id="btnMatch" class="btn btn--match btn--xl font-dohyeon" type="button" aria-label="하이어 매치 바로가기">
         <span>💛<br>HIGHER MATCH<br>👉 바로가기 👈</span>
       </button>
 
-      <!-- 3) 사용설명서: 기본 크기 -->
-      <button id="btnGuide" class="btn btn--guide font-dohyeon" type="button" aria-label="하이어 매치 사용설명서 (새 창)">
+      <!-- 3) 사용설명서 -->
+      <button id="btnGuide" class="btn btn--guide font-dohyeon" type="button" aria-label="하이어 매치 사용설명서">
         <span>하이어매치 모바일<br>사용설명서</span>
       </button>
     </div>
   </main>
 
-  <!-- ===== Popup Modal (기존 유지, 글자 2배 반영) ===== -->
+  <!-- ===== Popup Modal (제목/내용 2/3 반영) ===== -->
   <section id="popup" class="modal" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
     <div class="modal__card">
       <h2 id="popupTitle" class="modal__title font-dohyeon">하이어 매치 안내사항</h2>
@@ -222,17 +218,16 @@
 
 3. 메인안주와 술 주문은 꼭 해주세요!
 
-4. LIKE는 7개로 제한됩니다.
+4. LIKE보내기는 7회로 제한됩니다.
 
 5. 만남성사가 되면 상대방 확인 후에 직원에게 문의해주세요. 
 
 6. 테이블 합석을 원하시는 경우 직원에게 문의주세요.
-    단, 각 테이블 계산이 우선적으로 되어야 합니다.
+   &nbsp 단, 각 테이블 계산이 우선적으로 되어야 합니다.
 
 7. 헌팅포차처럼 즐겨주세요.
         </div>
 
-        <!-- 체크/라벨: 기존 유지 (모달에서만) -->
         <div class="checkrow">
           <input type="checkbox" id="chkToday" />
           <label for="chkToday">3시간동안 이 창 보지않기</label>
@@ -241,7 +236,7 @@
           <input type="checkbox" id="chkAgree" />
           <label for="chkAgree">위 내용을 모두 확인하였습니다.</label>
         </div>
-        <p class="note">     &nbsp &nbsp &nbsp &nbsp※ 불이익이 없도록 내용을 정독해주시기 바랍니다.</p>
+        <p class="note">&nbsp &nbsp &nbsp &nbsp ※ 불이익이 없도록 내용을 정독해주시기 바랍니다.</p>
       </div>
 
       <div class="modal__footer">
@@ -251,13 +246,13 @@
   </section>
 
   <script>
-    // ====== ⬇️ 설정 (버튼 링크만 넣어주세요) ======
-    const LINK_MATCH = "https://higheritaewon.github.io/Message-TEST_higherMatch/"; 
+    // ====== ⬇️ 링크: 직접 넣어주세요 (현재 비워둠) ======
+    const LINK_MATCH = "https://higheritaewon.github.io/Message-TEST_higherMatch/";  
     const LINK_GUIDE = "https://www.instagram.com/p/DPyruvHkZuM/?igsh=bXo2N2I3eTh4ejU2"; 
 
-    // ====== 팝업 3시간 유지 로직 ======
+    // ====== 팝업 ‘숨김 유지’ 로직 (3시간) ======
     const SNOOZE_KEY = "hm_popup_snooze_until";
-    const EIGHT_HOURS = 3 * 60 * 60 * 1000;
+    const THREE_HOURS = 3 * 60 * 60 * 1000;
 
     const popup = document.getElementById('popup');
     const chkToday = document.getElementById('chkToday');
@@ -293,10 +288,8 @@
         return;
       }
       if (chkToday.checked){
-        const until = Date.now() + EIGHT_HOURS;
-        try{
-          localStorage.setItem(SNOOZE_KEY, String(until));
-        }catch(e){}
+        const until = Date.now() + THREE_HOURS;
+        try{ localStorage.setItem(SNOOZE_KEY, String(until)); }catch(e){}
       }
       popup.hidden = true;
       popup.setAttribute('aria-hidden','true');
@@ -312,61 +305,22 @@
     // 공통: 링크 열기
     function openOrWarn(url, label){
       if (!url || !/^https?:\/\//i.test(url)){
-        alert(`${label} 링크가 설정되지 않았습니다.\n코드 상단의 LINK_* 상수에 올바른 URL을 입력해 주세요.`);
+        alert(`${label} 링크가 설정되지 않았습니다.\n상단의 LINK_* 상수에 올바른 URL을 입력해 주세요.`);
         return;
       }
       window.open(url, '_blank', 'noopener');
     }
 
-    // 1) 안내사항: 체크박스 없는 "내용만" 새 창으로 열기
+    // 1) 안내사항: 시간 상관없이 팝업을 화면에 표시
     btnInfo.addEventListener('click', () => {
-      const titleText = document.getElementById('popupTitle')?.textContent?.trim() || '하이어 매치 안내사항';
-      const bodyText  = document.getElementById('popupText')?.textContent || '';
-      const w = window.open('', '_blank', 'noopener,width=960,height=800');
-      if (!w) return;
-
-      const html = `
-<!DOCTYPE html><html lang="ko">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>${titleText}</title>
-<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
-<style>
-  :root{ --navy:#0c1a3a; --navy-2:#0a1636; --yellow:#ffd94d; --white:#fff; }
-  html,body{height:100%}
-  body{
-    margin:0; background:linear-gradient(180deg, var(--navy), var(--navy-2));
-    color:var(--white);
-    font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  }
-  .font-dh{ font-family:"Do Hyeon", system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
-  .page{ min-height:100dvh; display:flex; flex-direction:column; }
-  .title{
-    margin: 24px 16px 8px; text-align:center; color:var(--yellow);
-    font-size: clamp(34px, 11.6vw, 68px);
-  }
-  .content{
-    margin: 10px 16px 24px; white-space:pre-line;
-    font-size: 32px; line-height:1.6;
-  }
-</style>
-</head>
-<body>
-  <main class="page">
-    <h1 class="title font-dh">${titleText}</h1>
-    <section class="content font-dh">${bodyText.replace(/</g,"&lt;").replace(/>/g,"&gt;")}</section>
-  </main>
-</body></html>`;
-      w.document.open();
-      w.document.write(html);
-      w.document.close();
+      popup.hidden = false;
+      popup.removeAttribute('aria-hidden');
     });
 
-    // 2) 매치 바로가기(가운데 큰 버튼)
+    // 2) 매치 바로가기 (직접 입력한 주소로 이동)
     btnMatch.addEventListener('click', () => openOrWarn(LINK_MATCH, "‘하이어 매치 바로가기’"));
 
-    // 3) 사용설명서
+    // 3) 사용설명서 (직접 입력한 주소로 이동)
     btnGuide.addEventListener('click', () => openOrWarn(LINK_GUIDE, "‘하이어 매치 사용설명서’"));
   </script>
 </body>
