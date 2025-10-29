@@ -172,20 +172,20 @@
   <section id="popup" class="modal" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
     <div class="modal__card">
       <!-- 제목: 도현체, 중앙, 노란색 -->
-      <h2 id="popupTitle" class="modal__title font-dohyeon">하이어 매치 규칙 및 안내사항</h2>
+      <h2 id="popupTitle" class="modal__title font-dohyeon">하이어 매치 안내사항</h2>
 
       <!-- 본문: 도현체, 흰색. “1.~ 10.” 사이에 빈 줄(줄바꿈 2번) -->
       <div class="modal__body">
         <div id="popupText" class="modal__content font-dohyeon">
 1. 이벤트 참여를 원하시는 분은 번호를 잘보이도록 가슴 중앙에 붙여주세요.
 
-2. 받으신 번호로만 등록을 해주세요.(1인1번호)
+2. 받으신 번호로만 등록해주세요. (1인 1번호)
 
 3. 메인안주와 술 주문은 꼭 해주세요!
 
-4. 매치 후 만남요청을 서로 보류할 경우 만남성사가 불가합니다.
+4. 메인안주와 술 주문은 꼭 해주세요!
 
-5. 만남성사 되신분은 상대방 확인 후에 카운터 직원에게 문의해주세요. 
+5. 만남성사가 되면 상대방 확인 후에 직원에게 문의해주세요. 
 
 6. 테이블 합석을 원하시는 경우 직원에게 문의주세요.
     단, 각 테이블 계산이 우선적으로 되어야 합니다.
@@ -217,9 +217,9 @@
     // ====== ⬇️ 설정 (버튼 링크만 넣어주세요) ======
     const LINK_MATCH = "https://higheritaewon.github.io/HIGHER-MATCH-2025-BETA/"; 
     const LINK_GUIDE = "https://www.instagram.com/p/DPyruvHkZuM/?igsh=bXo2N2I3eTh4ejU2"; 
-    // ====== 팝업 8시간 유지 로직 ======
+    // ====== 팝업 3시간 유지 로직 ======
     const SNOOZE_KEY = "hm_popup_snooze_until";
-    const EIGHT_HOURS = 1 * 60 * 60 * 1000;
+    const EIGHT_HOURS = 3 * 60 * 60 * 1000;
 
     const popup = document.getElementById('popup');
     const chkToday = document.getElementById('chkToday');
@@ -283,6 +283,7 @@
   </script>
 </body>
 </html>
+
 
 
 
