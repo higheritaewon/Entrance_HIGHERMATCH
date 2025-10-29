@@ -18,83 +18,77 @@
       --muted:#cfd8ea;
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
+    html,body{height:100%;margin:0;padding:0;}
     body{
-      margin:0;
-      /* 톤을 네이비 계열로 재조정 (플랫) */
       background: linear-gradient(180deg, var(--bg), #0a142e 55%, #08102a);
       color:var(--white);
       font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      align-items:center;
     }
+
     .font-dohyeon{
       font-family:"Do Hyeon", system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
     }
 
-    /* ===== Main layout ===== */
-    .wrap{
-      min-height:100dvh;
-      display:flex;
-      flex-direction:column;
-      gap:16px;
-      padding:16px;
-    }
-
-    /* ===== Logo (절반 크기) ===== */
+    /* ===== Logo (절반 크기 유지, 상단 여백 줄임) ===== */
     .logo{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:8px 8px 0;
+      padding-top:10px;
     }
     .logo img{
-      width:min(260px, 43vw);  /* 기존의 절반 */
+      width:min(180px,40vw);
       height:auto;
       display:block;
       object-fit:contain;
       border-radius:12px;
-      /* 입체 효과 제거: 그림자/필터 없음 */
     }
 
-    /* ===== Buttons (플랫 스타일) ===== */
+    /* ===== Buttons (전체 높이의 약 60%) ===== */
     .btns{
       display:flex;
       flex-direction:column;
-      gap:16px;
-      flex:1;
-      margin-top:8px;
+      justify-content:center;
+      align-items:stretch;
+      width:90%;
+      gap:10px;
+      flex:0 0 60%;
     }
+
     .btn{
       flex:1;
       display:flex;
       align-items:center;
       justify-content:center;
-      background: var(--navy);    /* 플랫 배경 */
+      background: var(--navy);
       color: var(--white);
       border:none;
-      border-radius:16px;
+      border-radius:14px;
       text-align:center;
-      text-decoration:none;
       cursor:pointer;
       user-select:none;
       -webkit-tap-highlight-color: transparent;
-      transition: opacity .12s ease, transform .04s ease;
-      padding: 0 10px;
-      /* 입체 효과 제거: box-shadow, text-shadow 모두 제거 */
+      transition:opacity .12s ease;
+      padding:0 10px;
     }
-    .btn:active{ transform: translateY(0); opacity:.92; }
+    .btn:active{opacity:.9;}
     .btn span{
       display:block;
-      line-height:1.06;
-      /* 전체 버튼 폰트 2px 축소 */
-      font-size: clamp(20px, 9vw, 62px);
-      letter-spacing:.3px;
+      line-height:1.05;
+      font-size: clamp(18px, 6.5vw, 42px);
     }
-    /* 가운데 버튼 크게 */
-    .btn--xl{ flex:2.3; }
-    /* 매치 버튼만 노란색 플랫 */
+    .btn--xl{ flex:1.5; }
     .btn--match{ background: var(--yellow); color:#111; }
-    .btn--info{ background: #14254f; }
-    .btn--guide{ background: #14254f; }
+    .btn--info,.btn--guide{ background:#14254f; }
+
+    /* ===== Footer text ===== */
+    footer{
+      text-align:center;
+      font-size:14px;
+      color:var(--muted);
+      margin-bottom:10px;
+    }
 
     /* ===== Modal (Popup) ===== */
     .modal{
@@ -110,109 +104,93 @@
     .modal[hidden]{ display:none; }
 
     .modal__card{
-      width: min(840px, 100%);
-      max-height: 90dvh;
+      width: min(700px, 94%);
+      max-height: 88dvh;
       background: linear-gradient(180deg, var(--navy), var(--navy-2));
-      border-radius: 16px;
-      overflow: hidden;
+      border-radius: 14px;
+      overflow:hidden;
       display:flex;
       flex-direction:column;
       color:var(--white);
     }
     .modal__body{
-      padding: 18px 16px 12px;
+      padding:16px;
       overflow:auto;
     }
-    /* ⬇️ 제목: 직전(2배) 대비 2/3로 축소 */
     .modal__title{
-      margin: 16px 16px 6px;
+      margin: 12px 12px 4px;
       text-align:center;
       color: var(--yellow);
-      /* 34px→22.7, 11.6vw→7.73vw, 68px→45.3 (반올림) */
-      font-size: clamp(23px, 7.8vw, 46px);
+      font-size: clamp(20px, 6vw, 34px);
     }
-    /* ⬇️ 내용: 32px → 21.3px (2/3) */
     .modal__content{
-      margin: 8px 16px 8px;
-      font-size: 21.3px;
-      line-height: 1.6;
-      color: var(--white);
-      white-space: pre-line;
+      margin: 8px 12px;
+      font-size:18px;
+      line-height:1.6;
+      color:var(--white);
+      white-space:pre-line;
     }
     .checkrow{
-      display:flex; align-items:center; gap:10px;
-      margin: 10px 0 6px;
-      font-size: 15px;
-      color:#e9eef9;
+      display:flex;align-items:center;gap:8px;
+      margin:8px 0;
+      font-size:14px;color:#e9eef9;
     }
     .checkrow input[type="checkbox"]{
-      transform: scale(1.15);
-      accent-color: #e9eef9;
-      cursor:pointer;
+      transform:scale(1.1);
+      accent-color:#e9eef9;
     }
     .modal__footer{
-      padding: 10px 16px 16px;
-      display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;
+      padding:10px 14px 14px;
+      display:flex;justify-content:flex-end;
     }
     .btn--confirm{
-      padding: 12px 18px;
-      background: var(--yellow);
-      color: #111;
-      border-radius: 12px;
-      border: none;
-      font-size: 18px;
+      padding:10px 16px;
+      background:var(--yellow);
+      color:#111;
+      border:none;
+      border-radius:10px;
+      font-size:16px;
       cursor:pointer;
-      font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
     }
     .note{
-      margin-top: 6px; color:var(--muted); font-size: 13px;
-      font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      margin-top:6px;color:var(--muted);font-size:12px;
     }
 
-    /* Safe area for iPhone */
-    @supports(padding:max(0px)) {
-      .wrap{ padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
-      .modal{ padding: max(18px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)); }
-    }
   </style>
 </head>
 <body>
 
-  <!-- ===== Logo (절반 크기) ===== -->
+  <!-- ===== Logo ===== -->
   <div class="logo" aria-hidden="true">
-    <!-- ⬇️ 로고 이미지 URL을 이곳에 넣어주세요 -->
-    <img id="logoImg" src="https://lh3.googleusercontent.com/d/143lu87wt27PIerpMbBNSViSsHabI0dZd" alt="HIGHER 로고">
-    <!-- 예: src="https://example.com/higher-logo.png" -->
+    <img src="https://lh3.googleusercontent.com/d/143lu87wt27PIerpMbBNSViSsHabI0dZd" alt="HIGHER 로고">
   </div>
 
-  <!-- ===== Main Buttons (세로 3개) ===== -->
-  <main class="wrap" aria-live="polite">
-    <div class="btns">
-      <!-- 1) 안내사항: 항상 현재 페이지의 팝업을 띄움 -->
-      <button id="btnInfo" class="btn btn--info font-dohyeon" type="button" aria-label="HIGHER MATCH 안내사항 열기">
-        <span>HIGHER MATCH 안내사항</span>
-      </button>
+  <!-- ===== Main Buttons ===== -->
+  <main class="btns">
+    <button id="btnInfo" class="btn btn--info font-dohyeon" type="button">
+      <span>HIGHER MATCH 안내사항</span>
+    </button>
 
-      <!-- 2) 매치: 가장 크게 (플랫, 노란색) -->
-      <button id="btnMatch" class="btn btn--match btn--xl font-dohyeon" type="button" aria-label="하이어 매치 바로가기">
-        <span>💛<br>HIGHER MATCH<br>👉 바로가기 👈</span>
-      </button>
+    <button id="btnMatch" class="btn btn--match btn--xl font-dohyeon" type="button">
+      <span>❤<br>HIGHER MATCH<br>바로가기</span>
+    </button>
 
-      <!-- 3) 사용설명서 -->
-      <button id="btnGuide" class="btn btn--guide font-dohyeon" type="button" aria-label="하이어 매치 사용설명서">
-        <span>하이어매치 모바일<br>사용설명서</span>
-      </button>
-    </div>
+    <button id="btnGuide" class="btn btn--guide font-dohyeon" type="button">
+      <span>하이어매치 모바일<br>사용설명서</span>
+    </button>
   </main>
 
-  <!-- ===== Popup Modal (제목/내용 2/3 반영) ===== -->
+  <!-- ===== Footer ===== -->
+  <footer>이벤트용 익명 서비스입니다.<br>@higher_itaewon</footer>
+
+  <!-- ===== Popup Modal ===== -->
   <section id="popup" class="modal" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
     <div class="modal__card">
       <h2 id="popupTitle" class="modal__title font-dohyeon">하이어 매치 안내사항</h2>
 
       <div class="modal__body">
         <div id="popupText" class="modal__content font-dohyeon">
-1. 이벤트 참여를 원하시는 분은 번호를 잘보이도록 가슴 중앙에 붙여주세요.
+1. 이벤트 참여를 원하시는 분은 번호가 잘 보이도록 가슴 중앙에 붙여주세요.
 
 2. 받으신 번호로만 등록해주세요. (1인 1번호)
 
@@ -223,20 +201,20 @@
 5. 만남성사가 되면 상대방 확인 후에 직원에게 문의해주세요. 
 
 6. 테이블 합석을 원하시는 경우 직원에게 문의주세요.
-   &nbsp 단, 각 테이블 계산이 우선적으로 되어야 합니다.
+   단, 각 테이블 계산이 우선적으로 되어야 합니다.
 
 7. 헌팅포차처럼 즐겨주세요.
         </div>
 
         <div class="checkrow">
           <input type="checkbox" id="chkToday" />
-          <label for="chkToday">3시간동안 이 창 보지않기</label>
+          <label for="chkToday">2시간동안 이 창 보지않기</label>
         </div>
         <div class="checkrow">
           <input type="checkbox" id="chkAgree" />
           <label for="chkAgree">위 내용을 모두 확인하였습니다.</label>
         </div>
-        <p class="note">&nbsp &nbsp &nbsp &nbsp ※ 불이익이 없도록 내용을 정독해주시기 바랍니다.</p>
+        <p class="note">※ 불이익이 없도록 내용을 정독해주시기 바랍니다.</p>
       </div>
 
       <div class="modal__footer">
@@ -246,82 +224,97 @@
   </section>
 
   <script>
-    // ====== ⬇️ 링크: 직접 넣어주세요 (현재 비워둠) ======
-    const LINK_MATCH = "https://higheritaewon.github.io/Message-TEST_higherMatch/";  
-    const LINK_GUIDE = "https://www.instagram.com/p/DPyruvHkZuM/?igsh=bXo2N2I3eTh4ejU2"; 
+  const LINK_MATCH = "https://higheritaewon.github.io/Message-TEST_higherMatch/";
+  const LINK_GUIDE = "https://www.instagram.com/p/DPyruvHkZuM/?igsh=bXo2N2I3eTh4ejU2";
 
-    // ====== 팝업 ‘숨김 유지’ 로직 (3시간) ======
-    const SNOOZE_KEY = "hm_popup_snooze_until";
-    const THREE_HOURS = 3 * 60 * 60 * 1000;
+  const SNOOZE_KEY = "hm_popup_snooze_until";
+  const TWO_HOURS = 2 * 60 * 60 * 1000;
 
-    const popup = document.getElementById('popup');
-    const chkToday = document.getElementById('chkToday');
-    const chkAgree = document.getElementById('chkAgree');
-    const btnConfirm = document.getElementById('btnConfirm');
+  const popup     = document.getElementById('popup');
+  const chkToday  = document.getElementById('chkToday');
+  const chkAgree  = document.getElementById('chkAgree');
+  const btnConfirm= document.getElementById('btnConfirm');
 
-    const btnInfo  = document.getElementById('btnInfo');
-    const btnMatch = document.getElementById('btnMatch');
-    const btnGuide = document.getElementById('btnGuide');
+  const btnInfo   = document.getElementById('btnInfo');
+  const btnMatch  = document.getElementById('btnMatch');
+  const btnGuide  = document.getElementById('btnGuide');
 
-    // 최초 진입 시 팝업 표시 여부
-    (function initPopup(){
-      try{
-        const until = Number(localStorage.getItem(SNOOZE_KEY) || 0);
-        const now = Date.now();
-        if (until > now){
-          popup.hidden = true;
-          popup.setAttribute('aria-hidden','true');
-        } else {
-          popup.hidden = false;
-          popup.removeAttribute('aria-hidden');
-        }
-      }catch(e){
+  // ⬇️ 안내 전용 모드 플래그 & 토글
+  let infoMode = false; // false=기본(체크 필요), true=안내 전용(제목/내용만)
+  const checkRows = document.querySelectorAll('.checkrow');
+  const noteEl    = document.querySelector('.note');
+
+  function setInfoMode(on){
+    infoMode = on;
+    checkRows.forEach(el => el.style.display = on ? 'none' : '');
+    if (noteEl) noteEl.style.display = on ? 'none' : '';
+  }
+
+  // 최초 진입 시 팝업 표시 여부 (기본 모드로 표시됨)
+  (function initPopup(){
+    try{
+      const until = Number(localStorage.getItem(SNOOZE_KEY) || 0);
+      const now = Date.now();
+      if (until > now){
+        popup.hidden = true;
+      } else {
+        setInfoMode(false); // 기본 모드(체크 필요)
         popup.hidden = false;
-        popup.removeAttribute('aria-hidden');
       }
-    })();
+    }catch(e){
+      setInfoMode(false);
+      popup.hidden = false;
+    }
+  })();
 
-    // 확인 버튼
-    btnConfirm.addEventListener('click', () => {
-      if (!chkAgree.checked){
-        alert("‘위 내용을 확인하였습니다.’에 체크해 주세요.");
-        return;
-      }
-      if (chkToday.checked){
-        const until = Date.now() + THREE_HOURS;
-        try{ localStorage.setItem(SNOOZE_KEY, String(until)); }catch(e){}
-      }
+  // 확인 버튼 동작: 모드에 따라 분기
+  btnConfirm.addEventListener('click', () => {
+    if (infoMode){
+      // 안내 전용: 바로 닫기
       popup.hidden = true;
-      popup.setAttribute('aria-hidden','true');
-    });
+      return;
+    }
+    // 기본 모드: 동의 체크 필수 + 스누즈 처리
+    if (!chkAgree.checked){
+      alert("‘위 내용을 확인하였습니다.’에 체크해 주세요.");
+      return;
+    }
+    if (chkToday.checked){
+      const until = Date.now() + TWO_HOURS;
+      try{ localStorage.setItem(SNOOZE_KEY, String(until)); }catch(e){}
+    }
+    popup.hidden = true;
+  });
 
-    // ESC 닫기 (동의 체크된 상태에서만)
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !popup.hidden && chkAgree.checked){
+  // ESC로 닫기(기본 모드에서는 동의 체크가 되어 있어야 닫힘)
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !popup.hidden){
+      if (infoMode || chkAgree.checked){
         btnConfirm.click();
       }
-    });
-
-    // 공통: 링크 열기
-    function openOrWarn(url, label){
-      if (!url || !/^https?:\/\//i.test(url)){
-        alert(`${label} 링크가 설정되지 않았습니다.\n상단의 LINK_* 상수에 올바른 URL을 입력해 주세요.`);
-        return;
-      }
-      window.open(url, '_blank', 'noopener');
     }
+  });
 
-    // 1) 안내사항: 시간 상관없이 팝업을 화면에 표시
-    btnInfo.addEventListener('click', () => {
-      popup.hidden = false;
-      popup.removeAttribute('aria-hidden');
-    });
+  // 링크 열기 공통
+  function openOrWarn(url, label){
+    if (!url || !/^https?:\/\//i.test(url)){
+      alert(`${label} 링크가 설정되지 않았습니다.`);
+      return;
+    }
+    window.open(url, '_blank', 'noopener');
+  }
 
-    // 2) 매치 바로가기 (직접 입력한 주소로 이동)
-    btnMatch.addEventListener('click', () => openOrWarn(LINK_MATCH, "‘하이어 매치 바로가기’"));
+  // 1) 안내사항: 제목/내용만 보이는 안내 전용 팝업 띄우기
+  btnInfo.addEventListener('click', () => {
+    setInfoMode(true);     // 체크/동의 UI 숨김
+    popup.hidden = false;  // 팝업 표시
+  });
 
-    // 3) 사용설명서 (직접 입력한 주소로 이동)
-    btnGuide.addEventListener('click', () => openOrWarn(LINK_GUIDE, "‘하이어 매치 사용설명서’"));
-  </script>
+  // 2) 매치 바로가기
+  btnMatch.addEventListener('click', () => openOrWarn(LINK_MATCH, "‘하이어 매치 바로가기’"));
+
+  // 3) 사용설명서
+  btnGuide.addEventListener('click', () => openOrWarn(LINK_GUIDE, "‘하이어 매치 사용설명서’"));
+</script>
 </body>
 </html>
